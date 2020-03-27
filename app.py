@@ -9,19 +9,10 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods = ['GET', 'POST'])
 def handle_request():
-    files_ids = list(flask.request.files)
-    print("\nNumber of Received Images : ", len(files_ids))
-    image_num = 1
-    for file_id in files_ids:
-        print("\nSaving Image ", str(image_num), "/", len(files_ids))
-        imagefile = flask.request.files[file_id]
-        filename = werkzeug.utils.secure_filename(imagefile.filename)
-        print("Image Filename : " + imagefile.filename)
-        imagefile.save(filename)
-    #imagefile = flask.request.files['image']
-    #filename = werkzeug.utils.secure_filename(imagefile.filename)
-    #print("\nReceived image File name : " + imagefile.filename)
-    #imagefile.save(filename)
+    imagefile = flask.request.files['image']
+    filename = werkzeug.utils.secure_filename(imagefile.filename)
+    print("\nReceived image File name : " + imagefile.filename)
+    imagefile.save(filename)
 
     img = scipy.misc.imread(filename)
     img = scipy.misc.imresize(img, (320, 320))
